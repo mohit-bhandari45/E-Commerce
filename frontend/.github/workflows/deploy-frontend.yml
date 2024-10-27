@@ -19,19 +19,15 @@ jobs:
           node-version: '16' # Specify your Node.js version
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
 
       - name: Build
-        run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: ''
-
-      - name: Add .nojekyll file
-        run: touch ./out/.nojekyll
+        run: |
+          npm run build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages
-          folder: out
-          clean: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out # Adjust according to your output directory if different
