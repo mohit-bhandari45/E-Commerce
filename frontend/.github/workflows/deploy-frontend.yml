@@ -3,7 +3,7 @@ name: Deploy Frontend to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - master  # Change to your main branch if needed (like `main`)
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Specify your Node.js version
+          node-version: '16'  # Specify your Node.js version
 
       - name: Install Dependencies
         run: |
@@ -26,8 +26,12 @@ jobs:
         run: |
           npm run build
 
+      - name: Export
+        run: |
+          npm run export  # This step exports your Next.js app to static files
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out # Adjust according to your output directory if different
+          publish_dir: ./out  # Ensure this matches your export output directory
