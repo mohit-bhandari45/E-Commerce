@@ -1,0 +1,33 @@
+name: Deploy Backend to Render
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Build Backend
+        run: |
+          cd backend
+          npm run build
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }} # Add your Render API key to GitHub secrets
+        run: |
+          curl -X POST https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d '{"branch":"main"}'

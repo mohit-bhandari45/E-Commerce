@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.cjs",
+    "dev": "ts-node src/index.cts",
     "lint": "eslint . --fix"
   },
   "dependencies": {
