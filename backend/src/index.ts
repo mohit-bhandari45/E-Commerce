@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const userRouter = require("./routes/userRouter.mjs");
+const userRouter = require("./routes/userRouter");
 
 import { Request, Response } from "express";
 
