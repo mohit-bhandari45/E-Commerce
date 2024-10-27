@@ -3,7 +3,7 @@ name: Deploy Frontend to GitHub Pages
 on:
   push:
     branches:
-      - master  # Change to your main branch if needed (like `main`)
+      - master
 
 jobs:
   deploy:
@@ -16,22 +16,22 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Specify your Node.js version
+          node-version: '16' # Specify your Node.js version
 
       - name: Install Dependencies
-        run: |
-          npm install
+        run: npm install
 
       - name: Build
-        run: |
-          npm run build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ''
 
-      - name: Export
-        run: |
-          npm run export  # This step exports your Next.js app to static files
+      - name: Add .nojekyll file
+        run: touch ./out/.nojekyll
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out  # Ensure this matches your export output directory
+          branch: gh-pages
+          folder: out
+          clean: true
