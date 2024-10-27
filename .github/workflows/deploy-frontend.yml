@@ -1,0 +1,69 @@
+name: Deploy Frontend and Backend
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  frontend:
+    name: Deploy Frontend to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: |
+          npm install
+        working-directory: ./frontend # Adjust to your frontend directory if different
+
+      - name: Build Frontend
+        run: |
+          npm run build
+        working-directory: ./frontend
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend/out # Adjust if output directory is different
+
+  backend:
+    name: Build and Deploy Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: |
+          npm install
+        working-directory: ./backend # Adjust to your backend directory if different
+
+      - name: Lint Backend Code
+        run: |
+          npm run lint
+        working-directory: ./backend
+
+      - name: Build Backend
+        run: |
+          npm run build
+        working-directory: ./backend
+
+      - name: Start Backend
+        run: |
+          npm run start
+        working-directory: ./backend

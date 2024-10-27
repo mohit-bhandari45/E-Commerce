@@ -1,11 +1,9 @@
 // src/index.ts
-const express = require("express");
+import express,{ Request, Response } from "express";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-const userRouter = require("./routes/userRouter");
-
-import { Request, Response } from "express";
-
+import userRouter from "./routes/userRouter"
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript with Express!");
